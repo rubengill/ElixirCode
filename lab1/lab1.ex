@@ -6,7 +6,7 @@ defmodule Lab1 do
   end
 
   # Handle base case and if no multiplicative inverse, and if t is negative
-  defp mod_inverse_division(t, _ , r, 0, n) do
+  defp mod_inverse_division(t, _, r, 0, n) do
     if r > 1 do
       :not_invertible
     else
@@ -27,15 +27,14 @@ defmodule Lab1 do
   # Base Case
   def mod_pow(_, 0, _), do: 1
 
-  # Even
+  # Even case
   def mod_pow(a, m, n) when rem(m, 2) == 0 do
     half = mod_pow(a, div(m, 2), n)
     rem(half * half, n)
   end
 
-  # Odd
+  # Odd case
   def mod_pow(a, m, n) do
     rem(rem(a, n) * mod_pow(a, m - 1, n), n)
   end
-
 end
