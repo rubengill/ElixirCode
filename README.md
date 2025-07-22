@@ -1,4 +1,4 @@
-# Functional Programming Labs - Elixir
+# Elixir Code
 
 The following is a collection of problems and exercises solved in Elixir, demonstrating core concepts in concurrent programming. 
 
