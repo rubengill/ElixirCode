@@ -1,3 +1,7 @@
+# Functional Programming Labs - Elixir
+
+The following is a collection of problems and exercises solved in Elixir, demonstrating core concepts in concurrent programming. 
+
 **Elixir 1.17.2 | Erlang/OTP 27**
 
 # 01: RSA Cryptography Fundamentals
