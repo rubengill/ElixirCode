@@ -1,4 +1,4 @@
-defmodule Lab1 do
+defmodule One do
   # Find the multiplicative inverse of a (t * a mod n is congruent to 1)
   def mod_inverse(a, n) do
     # Recursivley divide to get the correct multiplicative inverse
