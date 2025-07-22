@@ -1,0 +1,45 @@
+:gen_tcp
+--------
+server:
+{:ok, socket}           = :gen_tcp.listen(port, opts)
+{:ok, connected_socket} = :gen_tcp.accept(socket)
+* note: in the above, connected_socket inherits the socket options of socket
+* every socket has a controlling process; for an active socket, only the
+  controlling process receives {:tcp, socket, data} messages.
+* the controlling process can call :gen_tcp.controlling_process(socket, pid)
+  to change the controlling process of socket
+
+client:
+{:ok, socket} = :gen_tcp.connect(host, port, opts)
+* host should be an atom or a charlist in Elixir
+
+client & server:
+:ok = :gen_tcp.send(socket, bin)
+:ok = :gen_tcp.close(socket)
+
+opts: 
+* server: [:binary, active: true/false, packet: 0/:line, reuseaddr: true]
+* client: [:binary, active: true/false, packet: 0/:line]
+  notes: 
+  * there are other possible options and values; the above are ones we use
+  * :binary vs :list (received packet is delivered as a binary or a list)
+  * default is: active: true (received data is converted to a message)
+  * also active: :once option; use :inet.setopts(socket, [active: :once])
+    to reset it
+
+2 ways to receive data:
+- active socket: received data is converted to a message & store in mailbox
+  of the controlling process: 
+  receive do
+   {:tcp, socket, bin} ->  ...
+   {:tcp_closed, socket} -> ...
+   {:tcp_error, reason} -> ...
+  end
+  * note: active socket provides no flow control; a fast sender can
+    overflow the receiver with incoming messages
+
+- passive socket
+  {:ok, bin} | {:error, :closed} = :gen_tcp.recv(socket, nbytes)
+  # when nbytes is 0, read all available bytes
+
+* note: listen, accept, send, recv, connect can also return {:error, reason}
